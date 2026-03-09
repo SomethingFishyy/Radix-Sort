@@ -14,8 +14,9 @@ def radix_base(values_to_sort, base):
             raise ValueError("invalid list element")
     # -----
 
+    # calculate length (in base) of largest element
     max_val = max(values_to_sort)
-    
+
     max_length = 0
     while max_val > 0:
         max_val = max_val // base
@@ -29,7 +30,6 @@ def radix_base(values_to_sort, base):
         for element in values_to_sort:
             # calculate where the digit placement is
             place = (element // base**i) % base
-            print(element, place, i)
 
             # add to bucket
             buckets[place].append(element)
@@ -46,5 +46,3 @@ def concat_list_elements(array):
         for ele in innerlist:
             new_list.append(ele)
     return new_list
-
-print(radix_base([1, 9, 8, 7, 4, 5, 6561], 9))
