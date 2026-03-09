@@ -6,11 +6,13 @@ def radix_base(values_to_sort, base):
     if (base < 2):
         raise ValueError("invalid arguments")
     
-    try:
-        for element in values_to_sort:
+    for element in values_to_sort:
+        if element < 0:
+            raise ValueError("invalid list element")
+        try:
             element % base
-    except:
-        raise ValueError("invalid list element")
+        except (TypeError):
+            raise ValueError("invalid list element")
     # -----
 
     max_length = length_of_largest(values_to_sort)
@@ -50,8 +52,8 @@ def concat_list_elements(array):
 
 
 def length_of_largest(array):
-    l = 0
+    length = 0
     for element in array:
-        if len(str(element)) > l:
-            l = len(str(element))
-    return l
+        if len(str(element)) > length:
+            length = len(str(element))
+    return length
