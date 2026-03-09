@@ -15,7 +15,11 @@ def radix_base(values_to_sort, base):
     # -----
 
     max_val = max(values_to_sort)
-    max_length = math.ceil(math.log(max_val + 1, base))
+    
+    max_length = 0
+    while max_val > 0:
+        max_val = max_val // base
+        max_length += 1
 
     for i in range(max_length):
         # set empty list of buckets for categorization
