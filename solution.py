@@ -19,26 +19,18 @@ def radix_base(values_to_sort, base):
 
     for i in range(max_length):
         # set empty list of buckets for categorization
-        temp_list = [[] for _ in range(base)]
+        buckets = [[] for _ in range(base)]
 
-        # add elements to their respective buckets
+        # adding elements to their respective buckets
         for element in values_to_sort:
-            temp_element = element
-
-            # convert to base 10 because python cant do division
-            # in other bases
-            temp_element = int(str(temp_element), base)
-
-            # divide (floor) until we locate the 10's place for this comparison
-            for n in range(i):
-                temp_element = temp_element // base
-            place = temp_element % base
+            # calculate where the digit placement is
+            place = (element // base**i) % base
 
             # add to bucket
-            temp_list[place].append(element)
+            buckets[place].append(element)
 
         # concatenate the buckets into one list
-        values_to_sort = concat_list_elements(temp_list)
+        values_to_sort = concat_list_elements(buckets)
         
     return values_to_sort
 
@@ -57,3 +49,5 @@ def length_of_largest(array):
         if len(str(element)) > length:
             length = len(str(element))
     return length
+
+print(radix_base([50, 30, 20, 18, 600, 1, 3], 15))
