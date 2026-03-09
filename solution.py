@@ -1,3 +1,6 @@
+import math
+
+
 def radix_base(values_to_sort, base):
     # validate args
     # -----
@@ -7,15 +10,12 @@ def radix_base(values_to_sort, base):
         raise ValueError("invalid arguments")
     
     for element in values_to_sort:
-        if element < 0:
-            raise ValueError("invalid list element")
-        try:
-            element % base
-        except (TypeError):
+        if not isinstance(element, int) or element < 0:
             raise ValueError("invalid list element")
     # -----
 
-    max_length = length_of_largest(values_to_sort)
+    max_val = max(values_to_sort)
+    max_length = math.ceil(math.log(max_val + 1, base))
 
     for i in range(max_length):
         # set empty list of buckets for categorization
@@ -25,13 +25,14 @@ def radix_base(values_to_sort, base):
         for element in values_to_sort:
             # calculate where the digit placement is
             place = (element // base**i) % base
+            print(element, place, i)
 
             # add to bucket
             buckets[place].append(element)
 
         # concatenate the buckets into one list
         values_to_sort = concat_list_elements(buckets)
-        
+
     return values_to_sort
 
 
@@ -42,12 +43,4 @@ def concat_list_elements(array):
             new_list.append(ele)
     return new_list
 
-
-def length_of_largest(array):
-    length = 0
-    for element in array:
-        if len(str(element)) > length:
-            length = len(str(element))
-    return length
-
-print(radix_base([50, 30, 20, 18, 600, 1, 3], 15))
+print(radix_base([1, 9, 8, 7, 4, 5, 6561], 9))
