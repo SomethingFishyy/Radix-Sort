@@ -1,5 +1,3 @@
-
-
 def radix_base(values_to_sort, base):
     # validate args
     # -----
@@ -15,26 +13,31 @@ def radix_base(values_to_sort, base):
         raise ValueError("invalid list element")
     # -----
 
-    # debug
-    print("vts:", values_to_sort)
-    print("base:", base)
-
-    temp_list = [[] for _ in range(base)]
-    max_length = max_int_length(values_to_sort)
+    max_length = length_of_largest(values_to_sort)
 
     for i in range(max_length):
+        # set empty list of buckets for categorization
+        temp_list = [[] for _ in range(base)]
+
         # add elements to their respective buckets
         for element in values_to_sort:
             temp_element = element
+
+            # convert to base 10 because python cant do division
+            # in other bases
+            temp_element = int(str(temp_element), base)
+
+            # divide (floor) until we locate the 10's place for this comparison
             for n in range(i):
                 temp_element = temp_element // base
             place = temp_element % base
+
+            # add to bucket
             temp_list[place].append(element)
 
         # concatenate the buckets into one list
         values_to_sort = concat_list_elements(temp_list)
-        temp_list = [[] for _ in range(base)]
-
+        
     return values_to_sort
 
 
@@ -46,13 +49,9 @@ def concat_list_elements(array):
     return new_list
 
 
-def max_int_length(array):
+def length_of_largest(array):
     l = 0
     for element in array:
         if len(str(element)) > l:
             l = len(str(element))
     return l
-
-print(radix_base([1011, 110, 101], 2))
-
-        
